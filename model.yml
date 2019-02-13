@@ -1,4 +1,62 @@
+#yamllint -d relaxed foo.yml
+# The python module will be aware of how to create
+# the appropriate derivative names
+---
+# material parameters
+epsilon_0:
+  comment: "permittivity of free space"
+  value: 8.854187817e-14
+  unit:  "F*cm^-2"
+eps_r:
+  comment: "relative permittivity"
+  unit: "1"
+  material: "silicon"
+    value: 11.7
+  material: "SiO2"
+    value: 3.9
+---
+name: "permittivity"
+command: "edge_model"
+options:
+  name:     "permittivity"
+  equation: "eps_r*epsilon_0"
+---
+# the command name implies that the edge models will be created from a node model
+name: ["Potential@n0", "Potential@n1"]
+command: "edge_from_node_model"
+options:
+  node_model: "Potential"
+---
+name: "ElectricField"
+command: "edge_average_model"
+options:
+  edge_model:   "ElectricField"
+  node_model:   "Potential"
+  average_type: "negative_gradient"
+derivatives:
+# handles Potential@n0, Potential@n1
+  node_variables:
+    - "Potential"
+documentation: >-
+  .. math::
 
+    \texttt{ElectricField} &= - \nabla \texttt{Potential} \\
+---
+name: "DisplacementField"
+command: "edge_model"
+options:
+  name:         "DisplacementField"
+  equation:     "permittivity*ElectricField"
+  display_type: "nodisplay"
+derivatives:
+  variables:
+    - "Potential"
+documentation: >-
+  .. math::
+
+    \texttt{DisplacementField} &= \epsilon \texttt{ElectricField}
+
+---
 # parameters
 Tref: "300"
 

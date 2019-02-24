@@ -1,3 +1,5 @@
+# yamllint disable rule:colons rule:line-length rule:empty-lines
+#https://yamllint.readthedocs.io/en/stable/disable_with_comments.html
 #yamllint -d relaxed foo.yml
 # The python module will be aware of how to create
 # the appropriate derivative names
@@ -10,10 +12,11 @@ epsilon_0:
 eps_r:
   comment: "relative permittivity"
   unit: "1"
-  material: "silicon"
-    value: 11.7
-  material: "SiO2"
-    value: 3.9
+  materials:
+    - material: "silicon"
+      value: 11.7
+    - material: "SiO2"
+      value: 3.9
 # parameters
 Tref:
   comment: "Reference Temperature"
@@ -75,7 +78,11 @@ documentation: >-
     \texttt{DisplacementField} &= \epsilon \texttt{ElectricField}
 
 ---
-
+name:    "kT"
+command: "node_model"
+options:
+  equation:     "k*T"
+  display_type: "nodisplay"
 
 node_models:
   - name: "kT"
@@ -99,7 +106,7 @@ node_models:
     equation: "sqrt(Nc*Nv)*exp(-EG_qc*inv2KT)"
   - name: "η_c"
     equation: "(EFn - Ec_qc)*invKT"
-  - name: "η_v":
+  - name: "η_v"
     equation: "(Ev_qc - EFp)*invKT"
   - name: "T32"
     equation: "pow(T, 1.5)"

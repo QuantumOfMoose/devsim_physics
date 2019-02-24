@@ -14,6 +14,24 @@ eps_r:
     value: 11.7
   material: "SiO2"
     value: 3.9
+# parameters
+Tref:
+  comment: "Reference Temperature"
+  value:   300
+  unit:    K
+k:
+  comment:  "Boltzmann Constant"
+  value:    1.3806485279e-23
+  unit:     "J/K"
+q:
+  comment:  "Electron Charge"
+  value:    1.60217662e-19
+  unit:     "coul"
+EG:
+  comment: "Energy Gap"
+  material: "Silicon"
+  value:   1.12
+  unit:    "eV"
 ---
 name: "permittivity"
 command: "edge_model"
@@ -57,24 +75,7 @@ documentation: >-
     \texttt{DisplacementField} &= \epsilon \texttt{ElectricField}
 
 ---
-# parameters
-Tref: "300"
 
-parameters:
-  - name:  "T"
-    desc:  "Lattice Temperature"
-    value: "300"
-    unit:  "Kelvin"
-  - name:  "k"
-    desc:  "Boltzmann Constant"
-    value: ""
-    unit:  ""
-  - name:  "q"
-    desc:  "Electron Charge"
-    value: ""
-    unit:  ""
-  - name: "EG"
-    material: "Silicon"
 
 node_models:
   - name: "kT"
